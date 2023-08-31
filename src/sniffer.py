@@ -1,10 +1,11 @@
 import tfparse
+import re
 from glob import glob
 from os.path import join
 
 BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "todo"}
 
-def get_suspicious_comments(path: str) -> list[int]:
+def get_suspicious_comments(path: str) -> list[dict]:
     line_numbers = []
     in_multiline_comment = False
 
@@ -56,7 +57,7 @@ def _get_all_inner_attributes(resource) -> list:
     elif isinstance(resource, list):
         for value in resource:
             attributes += _get_all_inner_attributes(value)
-    else:
+    elif resource is not None:
         attributes.append(resource)
     
     return attributes
@@ -72,7 +73,7 @@ def _get_all_attributes(parsed):
 
     return attributes
 
-def get_HTTP_without_TLS(path: str) -> list[int]:
+def get_HTTP_without_TLS(path: str) -> list[dict]:
     parsed = tfparse.load_from_path(path)
 
     attributes = _get_all_attributes(parsed)
@@ -88,10 +89,10 @@ def get_HTTP_without_TLS(path: str) -> list[int]:
     line_numbers = []
     for att in attributes:
         for s in att["attributes"]:
-            if ("http" in s) and (not "https" in s):
+            if isinstance(s, str) and re.search(r'http(?!s)', s.lower()) is not None:
                 line_numbers.append({
-                    "line_number": att["__tfparse"]["line_start"],
-                    "file": att["__tfparse"]["filename"]
+                    "line_number": att["__tfmeta"]["line_start"],
+                    "file": att["__tfmeta"]["filename"]
                     })
 
     return line_numbers
