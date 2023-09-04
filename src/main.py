@@ -2,20 +2,27 @@ import tfparse
 import sniffer
 
 def main():
-    path = "./terraform/babbel-terraform-aws-lambda-with-inline-code/"
+    path = "./terraform/lacework-terraform-aws-iam-role/"
 
-    HTTP_without_TLS = sniffer.get_HTTP_without_TLS(path)
-    suspicious_comments = sniffer.get_suspicious_comments(path)
+    sniff = sniffer.Sniffer(path)
+    sniff.get_smells()
 
     print("HTTP without TLS:")
-    for line in HTTP_without_TLS:
+    for line in sniff.HTTP_without_TLS:
         print(f"Line {line['line_number']} @ {line['file']}")
     
     print("Suspicious comments:")
-    for line in suspicious_comments:
+    for line in sniff.suspicious_comments:
         print(f"Line {line['line_number']} @ {line['file']}")
 
-    pass
+    print("Invalid IP binding:")
+    for line in sniff.invalid_IP_binding:
+        print(f"Line {line['line_number']} @ {line['file']}")
+
+    print("Weak crypto algorithms:")
+    for line in sniff.weak_crypto_algo:
+        print(f"Line {line['line_number']} @ {line['file']}")
+
     
 if __name__ == "__main__":
     main()
