@@ -1,28 +1,23 @@
-import tfparse
 import sniffer
+from glob import glob
 
 def main():
-    path = "./terraform/lacework-terraform-aws-iam-role/"
+    path = "./terraform/"
+    directories = glob(path + "*/")
 
-    sniff = sniffer.Sniffer(path)
-    sniff.get_smells()
+    for dir in directories:
+        print(dir)
+        sniff = sniffer.Sniffer(dir)
+        sniff.get_smells()
 
-    print("HTTP without TLS:")
-    for line in sniff.HTTP_without_TLS:
-        print(f"Line {line['line_number']} @ {line['file']}")
-    
-    print("Suspicious comments:")
-    for line in sniff.suspicious_comments:
-        print(f"Line {line['line_number']} @ {line['file']}")
+        print(f"Admin by default: {len(sniff.admin_by_default)}")
+        print(f"Empty password: {len(sniff.empty_password)}")
+        print(f"Invalid IP Binding: {len(sniff.invalid_IP_binding)}")
+        print(f"Suspicious comments: {len(sniff.suspicious_comments)}")
+        print(f"HTTP without TLS: {len(sniff.HTTP_without_TLS)}")
+        print(f"Weak crypto. algo.: {len(sniff.weak_crypto_algo)}")
 
-    print("Invalid IP binding:")
-    for line in sniff.invalid_IP_binding:
-        print(f"Line {line['line_number']} @ {line['file']}")
-
-    print("Weak crypto algorithms:")
-    for line in sniff.weak_crypto_algo:
-        print(f"Line {line['line_number']} @ {line['file']}")
-
+        print()
     
 if __name__ == "__main__":
     main()

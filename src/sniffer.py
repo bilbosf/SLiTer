@@ -1,5 +1,4 @@
 import tfparse
-import re
 from glob import glob
 from os.path import join
 
@@ -8,11 +7,12 @@ class Sniffer:
         self.path = path
         self.parsed = tfparse.load_from_path(path)
 
-        self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "todo"}
+        self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "todo", "ticket", "to-do", "launchpad"}
         self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "sha-1", "sha_1"}
+        self.PASSWORD_WORDS = {"password", "pass", "pwd"}
 
-        # self.admin_by_default    = []
-        # self.empty_password      = []
+        self.admin_by_default    = []
+        self.empty_password      = []
         # self.hard_coded_secret   = []
         self.invalid_IP_binding  = []
         self.suspicious_comments = []
@@ -98,13 +98,33 @@ class Sniffer:
         }
 
         if isinstance(node, str):
+            if self.test_admin_by_default(node):
+                self.admin_by_default.append(location)
+            if self.test_empty_password(node):
+                self.empty_password.append(location)
             if self.test_invalid_IP_binding(node):
                 self.invalid_IP_binding.append(location)
             if self.test_HTTP_without_TLS(node):
                 self.HTTP_without_TLS.append(location)
             if self.test_weak_crypto_algo(node):
                 self.weak_crypto_algo.append(location)
+        elif node is None: # We can also test for empty password if the value is None
+            if self.test_empty_password(node):
+                self.empty_password.append(location)
 
+    def test_admin_by_default(self, s: str) -> bool:
+        if "user" in self.current_key.lower():
+            return ("admin" in s.lower())
+        return False
+    
+    def test_empty_password(self, s: str | None) -> bool:
+        for word in self.PASSWORD_WORDS:
+            if word in self.current_key.lower():
+                return (s is None or len(s) == 0)
+        return False
+    
+    def test_hard_coded_secret(self, s: str) -> bool:
+        pass
 
     def test_invalid_IP_binding(self, s: str) -> bool:
         return ("0.0.0.0" in s.lower())
