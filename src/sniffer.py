@@ -10,10 +10,11 @@ class Sniffer:
         self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "todo", "ticket", "to-do", "launchpad"}
         self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "sha-1", "sha_1"}
         self.PASSWORD_WORDS = {"password", "pass", "pwd"}
+        self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "cert", "ssh", "md5", "rsa", "ssl", "dsa"}
 
         self.admin_by_default    = []
         self.empty_password      = []
-        # self.hard_coded_secret   = []
+        self.hard_coded_secret   = []
         self.invalid_IP_binding  = []
         self.suspicious_comments = []
         self.HTTP_without_TLS    = []
@@ -102,6 +103,8 @@ class Sniffer:
                 self.admin_by_default.append(location)
             if self.test_empty_password(node):
                 self.empty_password.append(location)
+            if self.test_hard_coded_secret(node):
+                self.hard_coded_secret.append(location)
             if self.test_invalid_IP_binding(node):
                 self.invalid_IP_binding.append(location)
             if self.test_HTTP_without_TLS(node):
@@ -112,19 +115,40 @@ class Sniffer:
             if self.test_empty_password(node):
                 self.empty_password.append(location)
 
-    def test_admin_by_default(self, s: str) -> bool:
-        if "user" in self.current_key.lower():
-            return ("admin" in s.lower())
+    def is_password(self, s: str) -> bool:
+        for word in self.PASSWORD_WORDS:
+            if word in s.lower():
+                return True
         return False
+    
+    def is_user(self, s: str) -> bool:
+        return ("user" in s.lower())
+    
+    def is_admin(self, s: str) -> bool:
+        return ("admin" in s.lower())
+
+    def is_pvt_key(self, s: str) -> bool:
+        for word in self.PRIVATE_KEY_WORDS:
+            if word in s.lower():
+                return True
+        return False
+
+    def test_admin_by_default(self, s: str) -> bool:
+        return self.is_user(self.current_key) and self.is_admin(s)
     
     def test_empty_password(self, s: str | None) -> bool:
-        for word in self.PASSWORD_WORDS:
-            if word in self.current_key.lower():
-                return (s is None or len(s) == 0)
-        return False
+        if self.is_password(self.current_key):
+            return (s is None) or (len(s) == 0)
+        else:
+            return False
     
     def test_hard_coded_secret(self, s: str) -> bool:
-        pass
+        if len(s) > 0:
+            is_secret = self.is_user(self.current_key) or self.is_password(self.current_key)
+            is_secret = is_secret or self.is_pvt_key(self.current_key) or self.is_pvt_key(s)
+            return is_secret
+        else:
+            return False
 
     def test_invalid_IP_binding(self, s: str) -> bool:
         return ("0.0.0.0" in s.lower())

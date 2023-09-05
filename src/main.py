@@ -10,12 +10,16 @@ def main():
         sniff = sniffer.Sniffer(dir)
         sniff.get_smells()
 
-        print(f"Admin by default: {len(sniff.admin_by_default)}")
-        print(f"Empty password: {len(sniff.empty_password)}")
-        print(f"Invalid IP Binding: {len(sniff.invalid_IP_binding)}")
-        print(f"Suspicious comments: {len(sniff.suspicious_comments)}")
-        print(f"HTTP without TLS: {len(sniff.HTTP_without_TLS)}")
-        print(f"Weak crypto. algo.: {len(sniff.weak_crypto_algo)}")
+        # print(f"Admin by default: {len(sniff.admin_by_default)}")
+        # print(f"Empty password: {len(sniff.empty_password)}")
+        print(f"Hardcoded secret: {len(sniff.hard_coded_secret)}")
+        # print(f"Invalid IP Binding: {len(sniff.invalid_IP_binding)}")
+        # print(f"Suspicious comments: {len(sniff.suspicious_comments)}")
+        # print(f"HTTP without TLS: {len(sniff.HTTP_without_TLS)}")
+        # print(f"Weak crypto. algo.: {len(sniff.weak_crypto_algo)}")
+
+        for line in sniff.hard_coded_secret:
+            print(f"Line {line['line_number']} @ {line['file']}")
 
         print()
     
