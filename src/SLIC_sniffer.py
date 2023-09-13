@@ -2,15 +2,23 @@ import tfparse
 from glob import glob
 from os.path import join
 
-class Sniffer:
+
+class SLIC_sniffer:
+    """ 
+    This is a sniffer class built to follow the rules used by Rahnan, Parnin and Williams in their Puppet
+    static analysis tool (SLIC) as closely as is reasonable for Terraform, for comparison purposes
+    """
+
     def __init__(self, path) -> None:
         self.path = path
         self.parsed = tfparse.load_from_path(path)
 
-        self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "todo", "ticket", "to-do", "launchpad", "debug"}
+        self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2" "todo", "ticket", "to-do",
+                                  "launchpad"}
         self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "sha-1", "sha_1"}
         self.PASSWORD_WORDS = {"password", "pass", "pwd"}
-        self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "cert", "ssh", "md5", "rsa", "ssl", "dsa"}
+        self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "certificate", "cert", "ssh_key", "md5", "rsa", 
+                                  "ssl", "dsa"}
 
         self.admin_by_default    = []
         self.empty_password      = []
@@ -111,9 +119,6 @@ class Sniffer:
                 self.HTTP_without_TLS.append(location)
             if self.test_weak_crypto_algo(node):
                 self.weak_crypto_algo.append(location)
-        elif node is None: # We can also test for empty password if the value is None
-            if self.test_empty_password(node):
-                self.empty_password.append(location)
 
     def is_password(self, s: str) -> bool:
         for word in self.PASSWORD_WORDS:
@@ -138,7 +143,7 @@ class Sniffer:
     
     def test_empty_password(self, s: str | None) -> bool:
         if self.is_password(self.current_key):
-            return (s is None) or (len(s) == 0) or (s == " ")
+            return (len(s) == 0) or (s == " ")
         else:
             return False
     
