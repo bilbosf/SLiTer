@@ -1,4 +1,4 @@
-REPO, ADMIN BY DEFAULT, EMPTY PASSWORD, HARDCODED SECRET, INVALID IP, SUSPICIOUS COMMENT, HTTP WITHOUT TLS, WEAK CRYPTO
+REPO, ADMIN_BY_DEFAULT, EMPTY_PASSWORD, HARD_CODED_SECRET, INVALID_IP_BINDING, SUSPICIOUS_COMMENTS, HTTP_WITHOUT_TLS, WEAK_CRYPTO_ALGO
 ./terraform/lacework-terraform-aws-iam-role/, 0, 0, 1, 0, 0, 0, 0
 ./terraform/gl-infra-aws-nessus-scanner/, 0, 0, 6, 1, 0, 0, 0
 ./terraform/terraform-aws-modules-terraform-aws-eks/, 0, 1, 42, 25, 3, 0, 0
