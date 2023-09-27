@@ -10,8 +10,9 @@ class Sniffer:
         self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "todo", "ticket", "to-do", "launchpad", "debug"}
         self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "sha-1", "sha_1"}
         self.PASSWORD_WORDS = {"password", "pass", "pwd"}
-        self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "cert", "ssh", "md5", "rsa", "ssl", "dsa"}
+        self.PRIVATE_KEY_WORDS = {"crypt", "secret", "cert", "ssh", "md5", "rsa", "ssl", "dsa"}
 
+        self.smells = dict()
         self.admin_by_default    = []
         self.empty_password      = []
         self.hard_coded_secret   = []

@@ -2,7 +2,7 @@
 
 This dataset was built with the Terraform scripts from the following repositories:
 
-| Subdirectory | Respository  | Clone date (DD/MM/YYYY) | Path to terraform directory | Commit |
+| Subdirectory | Respository  | Clone date (DD/MM/YYYY) | Path to terraform directory in original repository | Commit |
 | --- | --- | --- | --- | --- |
 | grafana-loki | [grafana/loki](https://github.com/grafana/loki) | 30/08/2023 | /production/terraform/modules/s3 | [Commit](https://github.com/grafana/loki/commit/f1bbdc51dcfbc4294b4d7ea3802e78189b0af1b2) |
 | gruntwork-io-terraform-google-load-balancer-http-load-balancer | [gruntwork-io/terraform-google-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer) | 31/08/2023 | /modules/http-load-balancer | [Commit](https://github.com/gruntwork-io/terraform-google-load-balancer/commit/9eaa4e497cd2b42c9f65ff611d17f0f71f678911) |
@@ -11,3 +11,11 @@ This dataset was built with the Terraform scripts from the following repositorie
 | gruntwork-io-terraform-google-load-balancer-main | [gruntwork-io/terraform-google-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer) | 31/08/2023 | / | [Commit](https://github.com/gruntwork-io/terraform-google-load-balancer/commit/9eaa4e497cd2b42c9f65ff611d17f0f71f678911) |
 | lacework-terraform-aws-iam-role | [lacework/terraform-aws-iam-role](https://github.com/lacework/terraform-aws-iam-role) | 31/08/2023 | / | [Commit](https://github.com/lacework/terraform-aws-iam-role/commit/f9ab0fea59097351e400c399cb17e9a273f2532f) |
 | babbel-terraform-aws-lambda-with-inline-code | [babbel/terraform-aws-lambda-with-inline-code](https://github.com/babbel/terraform-aws-lambda-with-inline-code) | 31/08/2023 | / | [Commit](https://github.com/babbel/terraform-aws-lambda-with-inline-code/commit/78bff6ad26e1411e6cb88495f01962255cd18da6) |
+| jpetazzo-ampernetacle | [jpetazzo/ampernetacle](https://github.com/jpetazzo/ampernetacle) | 25/09/2023 | / | [Commit](https://github.com/jpetazzo/ampernetacle/commit/63ed9b1f3c2a96481ab9c0f09f2a30e9ea7c3aaa) |
+| terraform-aws-modules-terraform-aws-eks | [terraform-aws-modules/terraform-aws-eks](https://github.com/terraform-aws-modules/terraform-aws-eks) | 25/09/2023 | / | [Commit](https://github.com/terraform-aws-modules/terraform-aws-eks/commit/918aa7cc40cbc072836410747834de64d84f514d) |
+| apache-pulsar | [apache/pulsar](https://github.com/apache/pulsar) | 26/09/2023 | /deployment/terraform-ansible/aws | [Commit](https://github.com/apache/pulsar/commit/afc924405829f23962e04a717571f33930c165d6) |
+| samuelclay-NewsBlur | [samuelclay/NewsBlur](https://github.com/samuelclay/NewsBlur) | 27/09/2023 | /terraform | [Commit](https://github.com/samuelclay/NewsBlur/commit/55ba3f8eb4e63011d923a178b98dc09a3056d677) |
+| gl-infra-aws-nessus-scanner | [GitLab AWS Nessus Scanner](https://gitlab.com/gitlab-com/gl-infra/terraform-modules/aws/aws-nessus-scanner) | 27/09/2023 | / | [Commit](https://gitlab.com/gitlab-com/gl-infra/terraform-modules/aws/aws-nessus-scanner/-/commit/8a545989a4125b47563ac0691895228f0ad569fb) |
+| gl-infra-dns-record | [GitLab DNS Record](https://gitlab.com/gitlab-com/gl-infra/terraform-modules/dns/dns-record) | 27/09/2023 | / | [Commit](https://gitlab.com/gitlab-com/gl-infra/terraform-modules/dns/dns-record/-/commit/f36cbe8da24bbf0e05e2ada0b729d976f3e7ddfa) |
+| gl-infra-packagecloud | [GitLab Packagecloud](https://gitlab.com/gitlab-com/gl-infra/terraform-modules/applications/packagecloud) | 27/09/2023 | / | [Commit](https://gitlab.com/gitlab-com/gl-infra/terraform-modules/applications/packagecloud/-/commit/2f4cd7e108c1f4e61474b27b7bb50895182ad22f) |
+| gl-infra-vault | [GitLab Hashicorp Vault](https://gitlab.com/gitlab-com/gl-infra/terraform-modules/vault/vault-configuration) | 27/09/2023 | / | [Commit](https://gitlab.com/gitlab-com/gl-infra/terraform-modules/vault/vault-configuration/-/commit/a8d599a8704231b7972dfb74a6b4a2c90598e3fe) |
