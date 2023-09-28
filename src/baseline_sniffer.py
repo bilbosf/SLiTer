@@ -1,7 +1,6 @@
 import tfparse
 from glob import glob
 from os.path import join
-import sniffer
 
 SMELL_NAMES = ["admin_by_default",
                 "empty_password",
@@ -10,26 +9,6 @@ SMELL_NAMES = ["admin_by_default",
                 "suspicious_comments",
                 "HTTP_without_TLS",
                 "weak_crypto_algo"]
-
-# class Baseline_Snifferv2(sniffer.Sniffer):
-#     def __init__(self, path) -> None:
-#         super().__init__(path)
-
-#         self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2" "todo", "ticket", "to-do",
-#                                   "launchpad"}
-#         self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "sha-1", "sha_1"}
-#         self.PASSWORD_WORDS = {"password", "pass", "pwd"}
-#         self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "certificate", "cert", "ssh_key", "md5", "rsa", 
-#                                   "ssl", "dsa"}
-
-#     # Empty password does not consider "None" case
-#     def test_empty_password(self, s: str | None) -> bool:
-#         if s is None:
-#             return False
-#         if self.is_password(self.current_key):
-#             return (len(s) == 0) or (s == " ")
-#         else:
-#             return False
 
 class Baseline_Sniffer():
     def __init__(self, path) -> None:
