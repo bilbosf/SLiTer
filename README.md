@@ -11,3 +11,12 @@ The 7 Security smells that this tool aims to detect, as described by the origina
 5. **Suspicious comment:** Putting information in comments about the presence of missing functionality or other problems with the system. The use of keywords like "TODO", "FIXME" and "HACK" are indicative of this smell.
 6. **Use of HTTP without TLS:** Using pure HTTP with no TLS. HTTP is susceptible to man-in-the-middle attacks due to lack of in-transit encryption.
 7. **Use of weak cryptography algorithms:** Using algorithms such as MD4, MD5 and SHA-1 for encryption purposes.
+
+## Architecture
+The Python scripts are all in the `src/` directory. The `src/main.py` file is the program entrypoint and is also responsible for iterating over the test directories and creating the output files. The `src/baseline_sniffer.py` file contains the `BaselineSniffer` class, which aims to closely follow the rules defined in the original SLIC program for comparison purposes. The `src/sniffer.py` file contains the `Sniffer` class, which contains the changes made to improve the performance compared to the baseline.
+
+The program iterates over all subdirectories in the `terraform/` directory and outputs two CSV files, one for the baseline and another for the modified sniffer. Each file contains how many instances of each smell were detected in each test directory.
+
+## Test repositories
+
+Terraform configuration files have been aggregated from several different sources in order to test this project. The test directories are present in the `terraform/` directory, along with a README file detailing the sources and the specific commits that were pulled.
