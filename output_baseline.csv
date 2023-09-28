@@ -1,0 +1,16 @@
+REPO, ADMIN_BY_DEFAULT, EMPTY_PASSWORD, HARD_CODED_SECRET, INVALID_IP_BINDING, SUSPICIOUS_COMMENTS, HTTP_WITHOUT_TLS, WEAK_CRYPTO_ALGO
+./terraform/lacework-terraform-aws-iam-role/, 0, 0, 1, 0, 0, 0, 0
+./terraform/gl-infra-aws-nessus-scanner/, 0, 0, 7, 1, 0, 0, 0
+./terraform/terraform-aws-modules-terraform-aws-eks/, 0, 0, 78, 25, 0, 0, 0
+./terraform/grafana-loki/, 0, 0, 2, 0, 0, 0, 0
+./terraform/gl-infra-packagecloud/, 1, 0, 37, 0, 0, 0, 1
+./terraform/apache-pulsar/, 0, 0, 26, 7, 0, 0, 0
+./terraform/gruntwork-io-terraform-google-load-balancer-internal-load-balancer/, 0, 0, 2, 0, 0, 0, 0
+./terraform/babbel-terraform-aws-lambda-with-inline-code/, 0, 0, 11, 7, 0, 0, 0
+./terraform/samuelclay-NewsBlur/, 0, 0, 531, 0, 0, 0, 0
+./terraform/jpetazzo-ampernetacle/, 0, 0, 41, 5, 1, 0, 0
+./terraform/gl-infra-dns-record/, 0, 0, 0, 0, 0, 0, 0
+./terraform/gl-infra-vault/, 0, 0, 44, 0, 0, 3, 0
+./terraform/gruntwork-io-terraform-google-load-balancer-network-load-balancer/, 0, 0, 1, 0, 0, 0, 0
+./terraform/gruntwork-io-terraform-google-load-balancer-http-load-balancer/, 0, 0, 4, 0, 0, 0, 0
+./terraform/gruntwork-io-terraform-google-load-balancer-main/, 0, 0, 3, 0, 0, 0, 0

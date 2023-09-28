@@ -1,32 +1,49 @@
 import tfparse
 from glob import glob
 from os.path import join
+import sniffer
 
+SMELL_NAMES = ["admin_by_default",
+                "empty_password",
+                "hard_coded_secret",
+                "invalid_IP_binding",
+                "suspicious_comments",
+                "HTTP_without_TLS",
+                "weak_crypto_algo"]
 
-class SLIC_sniffer:
-    """ 
-    This is a sniffer class built to follow the rules used by Rahnan, Parnin and Williams in their Puppet
-    static analysis tool (SLIC) as closely as is reasonable for Terraform, for comparison purposes
-    """
+# class Baseline_Snifferv2(sniffer.Sniffer):
+#     def __init__(self, path) -> None:
+#         super().__init__(path)
 
+#         self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2" "todo", "ticket", "to-do",
+#                                   "launchpad"}
+#         self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "sha-1", "sha_1"}
+#         self.PASSWORD_WORDS = {"password", "pass", "pwd"}
+#         self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "certificate", "cert", "ssh_key", "md5", "rsa", 
+#                                   "ssl", "dsa"}
+
+#     # Empty password does not consider "None" case
+#     def test_empty_password(self, s: str | None) -> bool:
+#         if s is None:
+#             return False
+#         if self.is_password(self.current_key):
+#             return (len(s) == 0) or (s == " ")
+#         else:
+#             return False
+
+class Baseline_Sniffer():
     def __init__(self, path) -> None:
         self.path = path
         self.parsed = tfparse.load_from_path(path)
 
-        self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2" "todo", "ticket", "to-do",
-                                  "launchpad"}
+        self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2" "todo", "ticket", "to-do", "launchpad"}
         self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "sha-1", "sha_1"}
         self.PASSWORD_WORDS = {"password", "pass", "pwd"}
-        self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "certificate", "cert", "ssh_key", "md5", "rsa", 
-                                  "ssl", "dsa"}
+        self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "certificate", "cert", "ssh_key", "md5", "rsa", "ssl", "dsa"}
 
-        self.admin_by_default    = []
-        self.empty_password      = []
-        self.hard_coded_secret   = []
-        self.invalid_IP_binding  = []
-        self.suspicious_comments = []
-        self.HTTP_without_TLS    = []
-        self.weak_crypto_algo    = []
+        self.smells = dict()
+        for s in SMELL_NAMES:
+            self.smells[s] = []
 
         self.in_multiline_comment = False
 
@@ -60,11 +77,22 @@ class SLIC_sniffer:
         
             for word in self.BAD_COMMENT_WORDS:
                 if word in comment and not "debug" in comment:
-                    self.suspicious_comments.append({
+                    self.smells["suspicious_comments"].append({
                         "line_number": i + 1, # enumerate starts at 0, so we save i + 1
                         "file": filename[filename.rfind("/"):], # Only the file name, not including directories
                     })
                     break
+
+    def make_results(self):
+        line = [self.path]
+        for occurrence_list in self.smells.values():
+            line.append(str(len(occurrence_list)))
+        return line
+    
+    def print_smell_locations(self, smell):
+        if smell in self.smells.keys():
+            for i in self.smells[smell]:
+                print(f"Line {i['line_number']} @ {i['file']}")
 
     def get_smells(self):
         # First parse raw text files for suspicious comments
@@ -108,17 +136,17 @@ class SLIC_sniffer:
 
         if isinstance(node, str):
             if self.test_admin_by_default(node):
-                self.admin_by_default.append(location)
+                self.smells["admin_by_default"].append(location)
             if self.test_empty_password(node):
-                self.empty_password.append(location)
+                self.smells["empty_password"].append(location)
             if self.test_hard_coded_secret(node):
-                self.hard_coded_secret.append(location)
+                self.smells["hard_coded_secret"].append(location)
             if self.test_invalid_IP_binding(node):
-                self.invalid_IP_binding.append(location)
+                self.smells["invalid_IP_binding"].append(location)
             if self.test_HTTP_without_TLS(node):
-                self.HTTP_without_TLS.append(location)
+                self.smells["HTTP_without_TLS"].append(location)
             if self.test_weak_crypto_algo(node):
-                self.weak_crypto_algo.append(location)
+                self.smells["weak_crypto_algo"].append(location)
 
     def is_password(self, s: str) -> bool:
         for word in self.PASSWORD_WORDS:
@@ -143,7 +171,7 @@ class SLIC_sniffer:
     
     def test_empty_password(self, s: str | None) -> bool:
         if self.is_password(self.current_key):
-            return (len(s) == 0) or (s == " ")
+            return (s is None) or (len(s) == 0) or (s == " ")
         else:
             return False
     
