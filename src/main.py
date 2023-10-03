@@ -4,19 +4,30 @@ from glob import glob
 
 OUTPUT_BASELINE_FILE = "output_baseline.csv"
 OUTPUT_SNIFFER_FILE = "output_sniffer.csv"
+LOG_BASELINE_FILE = "log_baseline.csv"
+LOG_SNIFFER_FILE = "log_sniffer.csv"
 
-def make_csv(smells: list[str], file: str):
-    items = ["REPO"] + smells
+LOG_COLUMNS = ["SMELL", "LINE", "FILE"]
+
+def make_csv(file: str, columns: list[str]):
+    items = ["REPO"] + columns
     items = [x.upper() for x in items]
     with open(file, "w") as f:
         f.write(", ".join(items) + "\n")
+
+def write_csv_line(file: str, line: list[str]):
+     with open(file, "a") as f:
+            f.write(", ".join(line))
+            f.write("\n")
 
 def main():
     path = "./terraform/"
     directories = glob(path + "*/")
 
-    make_csv(baseline_sniffer.SMELL_NAMES, OUTPUT_BASELINE_FILE)
-    make_csv(sniffer.SMELL_NAMES, OUTPUT_SNIFFER_FILE)
+    make_csv(OUTPUT_BASELINE_FILE, baseline_sniffer.SMELL_NAMES)
+    make_csv(OUTPUT_SNIFFER_FILE, sniffer.SMELL_NAMES)
+    make_csv(LOG_SNIFFER_FILE, LOG_COLUMNS)
+    make_csv(LOG_BASELINE_FILE, LOG_COLUMNS)
 
     for dir in directories:
         print(dir)
@@ -26,13 +37,13 @@ def main():
         sniff.get_smells()
         baseline_sniff.get_smells()
 
-        with open(OUTPUT_SNIFFER_FILE, "a") as f:
-            f.write(", ".join(sniff.make_results()))
-            f.write("\n")
-
-        with open(OUTPUT_BASELINE_FILE, "a") as f:
-            f.write(", ".join(baseline_sniff.make_results()))
-            f.write("\n")
+        write_csv_line(OUTPUT_SNIFFER_FILE, sniff.make_results())
+        write_csv_line(OUTPUT_BASELINE_FILE, baseline_sniff.make_results())
+        
+        for line in sniff.make_logs():
+            write_csv_line(LOG_SNIFFER_FILE, line)
+        for line in baseline_sniff.make_logs():
+            write_csv_line(LOG_BASELINE_FILE, line)
 
         print()
     

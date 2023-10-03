@@ -15,7 +15,7 @@ class Baseline_Sniffer():
         self.path = path
         self.parsed = tfparse.load_from_path(path)
 
-        self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2" "todo", "ticket", "to-do", "launchpad"}
+        self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2", "todo", "ticket", "to-do", "launchpad"}
         self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "sha-1", "sha_1"}
         self.PASSWORD_WORDS = {"password", "pass", "pwd"}
         self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "certificate", "cert", "ssh_key", "md5", "rsa", "ssl", "dsa"}
@@ -56,6 +56,7 @@ class Baseline_Sniffer():
         
             for word in self.BAD_COMMENT_WORDS:
                 if word in comment and not "debug" in comment:
+                    print(f'"{word}" found in line {i + 1} @ {filename}')
                     self.smells["suspicious_comments"].append({
                         "line_number": i + 1, # enumerate starts at 0, so we save i + 1
                         "file": filename[filename.rfind("/"):], # Only the file name, not including directories
@@ -67,6 +68,14 @@ class Baseline_Sniffer():
         for occurrence_list in self.smells.values():
             line.append(str(len(occurrence_list)))
         return line
+    
+    def make_logs(self):
+        lines = []
+        for smell, occurrence_list in self.smells.items():
+            for i in occurrence_list:
+                line = [self.path, smell.upper(), str(i['line_number']), i['file']]
+                lines.append(line)
+        return lines
     
     def print_smell_locations(self, smell):
         if smell in self.smells.keys():
