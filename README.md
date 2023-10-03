@@ -15,7 +15,15 @@ The 7 Security smells that this tool aims to detect, as described by the origina
 ## Architecture
 The Python scripts are all in the `src/` directory. The `src/main.py` file is the program entrypoint and is also responsible for iterating over the test directories and creating the output files. The `src/baseline_sniffer.py` file contains the `BaselineSniffer` class, which aims to closely follow the rules defined in the original SLIC program for comparison purposes. The `src/sniffer.py` file contains the `Sniffer` class, which contains the changes made to improve the performance compared to the baseline.
 
-The program iterates over all subdirectories in the `terraform/` directory and outputs two CSV files, one for the baseline and another for the modified sniffer. Each file contains how many instances of each smell were detected in each test directory.
+The program iterates over all subdirectories in the `terraform/` directory to create its output CSV files.
+
+## Output
+The program outputs 4 CSV files:
+
+- `output_baseline.csv`: How many occurrences of each smell were found in each test repository by the baseline sniffer.
+- `output_sniffer.csv`: How many occurrences of each smell were found in each test repository by the modified sniffer.
+- `log_baseline.csv`: Where each smell found by the baseline sniffer is located.
+- `log_sniffer.csv`:  Where each smell found by the modified sniffer is located.
 
 ## Test repositories
 
