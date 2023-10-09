@@ -1,9 +1,7 @@
-import tfparse
-from glob import glob
-from os.path import join
 import baseline_sniffer
 
 SMELL_NAMES = baseline_sniffer.SMELL_NAMES
+LOG_COLUMNS = baseline_sniffer.LOG_COLUMNS
 
 class Sniffer(baseline_sniffer.Baseline_Sniffer):
     def __init__(self, path) -> None:

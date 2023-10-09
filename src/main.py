@@ -7,11 +7,8 @@ OUTPUT_SNIFFER_FILE = "output_sniffer.csv"
 LOG_BASELINE_FILE = "log_baseline.csv"
 LOG_SNIFFER_FILE = "log_sniffer.csv"
 
-LOG_COLUMNS = ["SMELL", "LINE", "FILE"]
-
 def make_csv(file: str, columns: list[str]):
-    items = ["REPO"] + columns
-    items = [x.upper() for x in items]
+    items = [x.upper() for x in columns]
     with open(file, "w") as f:
         f.write(", ".join(items) + "\n")
 
@@ -24,10 +21,10 @@ def main():
     path = "./terraform/"
     directories = glob(path + "*/")
 
-    make_csv(OUTPUT_BASELINE_FILE, baseline_sniffer.SMELL_NAMES)
-    make_csv(OUTPUT_SNIFFER_FILE, sniffer.SMELL_NAMES)
-    make_csv(LOG_SNIFFER_FILE, LOG_COLUMNS)
-    make_csv(LOG_BASELINE_FILE, LOG_COLUMNS)
+    make_csv(OUTPUT_BASELINE_FILE, ["REPO"] + baseline_sniffer.SMELL_NAMES)
+    make_csv(OUTPUT_SNIFFER_FILE, ["REPO"] + sniffer.SMELL_NAMES)
+    make_csv(LOG_BASELINE_FILE, baseline_sniffer.LOG_COLUMNS)
+    make_csv(LOG_SNIFFER_FILE, sniffer.LOG_COLUMNS)
 
     for dir in directories:
         print(dir)
@@ -39,7 +36,7 @@ def main():
 
         write_csv_line(OUTPUT_SNIFFER_FILE, sniff.make_results())
         write_csv_line(OUTPUT_BASELINE_FILE, baseline_sniff.make_results())
-        
+
         for line in sniff.make_logs():
             write_csv_line(LOG_SNIFFER_FILE, line)
         for line in baseline_sniff.make_logs():
