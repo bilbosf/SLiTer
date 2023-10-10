@@ -115,11 +115,11 @@ class Baseline_Sniffer():
         return re.sub(r'\${.*?}', '', s) # Replaces the '${...}' pattern with blank
     
     def latest_key(self) -> str:
-        return self.current_key[self.current_key.rfind("."):]
+        return self.current_key[self.current_key.rfind(".") + 1:]
 
     def test_admin_by_default(self, s: str) -> bool:
         latest_key = self.latest_key()
-        constant_s = self.remove_variables(s)
+        constant_s = self.remove_variables(s).lower()
         return self.is_user(latest_key) and (self.is_admin(constant_s) or self.is_admin(latest_key))
     
     def test_empty_password(self, s: str | None) -> bool:
@@ -131,7 +131,7 @@ class Baseline_Sniffer():
     
     def test_hard_coded_secret(self, s: str) -> bool:
         latest_key = self.latest_key()
-        constant_s = self.remove_variables(s)
+        constant_s = self.remove_variables(s).lower()
         if len(constant_s) > 0:
             is_secret = self.is_user(latest_key) or self.is_password(latest_key)
             is_secret = is_secret or self.is_pvt_key(latest_key) or self.is_pvt_key(constant_s)
@@ -153,7 +153,7 @@ class Baseline_Sniffer():
     
     def test_weak_crypto_algo(self, s: str) -> bool:
         for word in self.BAD_CRYPTO_ALGO_WORDS:
-            if word in s:
+            if word in s.lower():
                 return True
         
         return False

@@ -42,6 +42,7 @@ REPO, SMELL, LOCATION
 ./terraform/terraform-aws-modules-terraform-aws-eks/, SUSPICIOUS_COMMENTS, node_groups.tf[43]
 ./terraform/terraform-aws-modules-terraform-aws-eks/, SUSPICIOUS_COMMENTS, variables.tf[419]
 ./terraform/terraform-aws-modules-terraform-aws-eks/, SUSPICIOUS_COMMENTS, main.tf[255]
+./terraform/terraform-aws-modules-terraform-aws-eks/, WEAK_CRYPTO_ALGO, outputs.tf.output.cluster_tls_certificate_sha1_fingerprint[0].description
 ./terraform/terraform-aws-modules-terraform-aws-eks/, WEAK_CRYPTO_ALGO, outputs.tf.output.cluster_tls_certificate_sha1_fingerprint[0].value
 ./terraform/terraform-aws-modules-terraform-aws-eks/, WEAK_CRYPTO_ALGO, main.tf.resource.aws_iam_openid_connect_provider.oidc_provider[0].thumbprint_list
 ./terraform/gl-infra-packagecloud/, ADMIN_BY_DEFAULT, cloudsql.tf.module.mysql[0].user_name

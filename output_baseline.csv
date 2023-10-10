@@ -1,7 +1,7 @@
 REPO, ADMIN_BY_DEFAULT, EMPTY_PASSWORD, HARD_CODED_SECRET, INVALID_IP_BINDING, SUSPICIOUS_COMMENTS, HTTP_WITHOUT_TLS, WEAK_CRYPTO_ALGO
 ./terraform/lacework-terraform-aws-iam-role/, 0, 0, 0, 0, 0, 0, 0
 ./terraform/gl-infra-aws-nessus-scanner/, 0, 0, 2, 1, 0, 0, 0
-./terraform/terraform-aws-modules-terraform-aws-eks/, 0, 0, 35, 2, 3, 0, 2
+./terraform/terraform-aws-modules-terraform-aws-eks/, 0, 0, 35, 2, 3, 0, 3
 ./terraform/grafana-loki/, 0, 0, 0, 0, 0, 0, 0
 ./terraform/gl-infra-packagecloud/, 1, 0, 2, 0, 0, 0, 0
 ./terraform/apache-pulsar/, 0, 0, 3, 7, 0, 1, 0
