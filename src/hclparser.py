@@ -47,7 +47,7 @@ class HCLParser():
 
             filename = basename(file)
             path_in_container = join("terraform/", filename)
-            json_out = self.client.containers.run("tmccombs/hcl2json", path_in_container, volumes=[f"{self.path}:/terraform/"])
+            json_out = self.client.containers.run("tmccombs/hcl2json:0.6.0", path_in_container, volumes=[f"{self.path}:/terraform/"])
 
             dict_out = json.loads(json_out)
 

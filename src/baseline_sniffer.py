@@ -27,10 +27,7 @@ class Baseline_Sniffer():
         for s in SMELL_NAMES:
             self.smells[s] = []
 
-        self.in_multiline_comment = False
-
         self.current_key = ""
-        self.current_top_level_resource = None
 
     def make_results(self):
         line = [self.path]
@@ -118,7 +115,7 @@ class Baseline_Sniffer():
         return re.sub(r'\${.*?}', '', s) # Replaces the '${...}' pattern with blank
     
     def latest_key(self) -> str:
-        return self.current_key[self.current_key.find("."):]
+        return self.current_key[self.current_key.rfind("."):]
 
     def test_admin_by_default(self, s: str) -> bool:
         latest_key = self.latest_key()
