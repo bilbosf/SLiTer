@@ -16,9 +16,15 @@ class Sniffer(baseline_sniffer.Baseline_Sniffer):
         latest_key = self.latest_key()
         constant_s = self.remove_variables(s).lower()
 
+        # Terraform's tls_private_key stores keys unencrypted in terraform state and should be
+        # avoided in production enviroments.
+        if ("resource.tls_private_key" in self.current_key) and latest_key == "algorithm":
+            # Only triggering when latest_key == "algorithm" to avoid multiple triggers for single instance
+            return True
+
         if len(constant_s) > 0 and latest_key != "description":
             is_secret = self.is_user(latest_key) or self.is_password(latest_key)
-            is_secret = is_secret or self.is_pvt_key(latest_key) or self.is_pvt_key(constant_s)
+            is_secret = is_secret or self.is_pvt_key(latest_key)
             return is_secret
         else:
             return False
