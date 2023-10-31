@@ -8,7 +8,7 @@ class Sniffer(baseline_sniffer.Baseline_Sniffer):
         super().__init__(path)
 
         self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "todo", "ticket", "to-do", "launchpad", "debug"}
-        self.BAD_CRYPTO_ALGO_WORDS = {"md4", "md5", "rc4", "rc2", "blowfish", "sha1", "sha-1", "sha_1"}
+        self.BAD_CRYPTO_ALGO_WORDS = {"md4", "md5", "rc4", "rc2", "blowfish", "sha1", "sha-1", "sha_1", " des ", "_des_", "-des-"}
         self.PASSWORD_WORDS = {"password", "pass", "pwd"}
         self.PRIVATE_KEY_WORDS = {"crypt", "secret", "cert", "ssh", "md5", "rsa", "ssl", "dsa"}
 

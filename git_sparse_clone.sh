@@ -20,6 +20,7 @@ function git_sparse_clone() (
   cd "$initialdir"
   mkdir "$localdir"
 
+  # Remove double slashes
   pathtofiles=$(echo "$tmpdir/$clonedir/*" | sed 's#/\{2,\}#/#g')
 
   mv $pathtofiles "$localdir"

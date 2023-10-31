@@ -2,7 +2,7 @@
 
 This dataset was built with the Terraform scripts from the following repositories:
 
-| Subdirectory | Respository  | Clone date (DD/MM/YYYY) | Path to terraform directory in original repository | Commit |
+| Subdirectory | Repository  | Clone date (DD/MM/YYYY) | Path to terraform directory in original repository | Commit |
 | --- | --- | --- | --- | --- |
 | grafana-loki | [grafana/loki](https://github.com/grafana/loki) | 30/08/2023 | /production/terraform/modules/s3 | [Commit](https://github.com/grafana/loki/commit/f1bbdc51dcfbc4294b4d7ea3802e78189b0af1b2) |
 | gruntwork-io-terraform-google-load-balancer-http-load-balancer | [gruntwork-io/terraform-google-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer) | 31/08/2023 | /modules/http-load-balancer | [Commit](https://github.com/gruntwork-io/terraform-google-load-balancer/commit/9eaa4e497cd2b42c9f65ff611d17f0f71f678911) |

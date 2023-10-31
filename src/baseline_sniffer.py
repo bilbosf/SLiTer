@@ -19,9 +19,19 @@ class Baseline_Sniffer():
         self.parsed, self.comments = parser.parse()
 
         self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2", "todo", "ticket", "to-do", "launchpad"}
-        self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "sha-1", "sha_1"}
+
+        self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "base64"}
+
+        self.USER_WORDS = {"user"}
+        self.NEGATIVE_USER_WORDS = {"provider"}
+
+        self.ADMIN_WORDS = {"admin"}
+
         self.PASSWORD_WORDS = {"password", "pass", "pwd"}
-        self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "certificate", "cert", "ssh_key", "md5", "rsa", "ssl", "dsa"}
+        self.NEGATIVE_PASSWORD_WORDS = {"provider", "passive"}
+
+        self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "certificate", "cert", "ssh_key", "md5", "rsa", "ssl", "dsa", "ssh-rsa"}
+        self.NEGATIVE_KEY_WORDS = {"provider"}
 
         self.smells = dict()
         for s in SMELL_NAMES:
@@ -91,20 +101,23 @@ class Baseline_Sniffer():
                 self.smells["weak_crypto_algo"].append(location)
 
     def is_password(self, s: str) -> bool:
-        for word in self.PASSWORD_WORDS:
-            if word in s.lower():
+        if any(word in s.lower() for word in self.PASSWORD_WORDS):
+            if not any(word in s.lower() for word in self.NEGATIVE_PASSWORD_WORDS):
                 return True
         return False
     
     def is_user(self, s: str) -> bool:
-        return ("user" in s.lower())
+        if any(word in s.lower() for word in self.USER_WORDS):
+            if not any(word in s.lower() for word in self.NEGATIVE_USER_WORDS):
+                return True
+        return False
     
     def is_admin(self, s: str) -> bool:
-        return ("admin" in s.lower())
+        return any(word in s.lower() for word in self.ADMIN_WORDS)
 
     def is_pvt_key(self, s: str) -> bool:
-        for word in self.PRIVATE_KEY_WORDS:
-            if word in s.lower():
+        if any(word in s.lower() for word in self.PRIVATE_KEY_WORDS):
+            if not any(word in s.lower() for word in self.NEGATIVE_KEY_WORDS):
                 return True
         return False
     
@@ -149,7 +162,7 @@ class Baseline_Sniffer():
         return False
     
     def test_HTTP_without_TLS(self, s: str) -> bool:
-        return ("http:" in s.lower())
+        return ("http://" in s.lower())
     
     def test_weak_crypto_algo(self, s: str) -> bool:
         for word in self.BAD_CRYPTO_ALGO_WORDS:
