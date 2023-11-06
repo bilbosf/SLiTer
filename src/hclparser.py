@@ -2,6 +2,8 @@ import docker
 from glob import glob
 from os.path import join, abspath, basename
 import json
+import re
+from bisect import bisect_left
 
 class HCLParser():
     def __init__(self, path: str) -> None:
@@ -9,36 +11,37 @@ class HCLParser():
         self.client = docker.from_env()
         self.parsed = {}
         self.comments = {}
-        self.in_multiline_comment = False
-
-    def extract_comment(self, line):
-        if self.in_multiline_comment:
-            if "*/" in line:
-                self.in_multiline_comment = False
-                return line[:line.find("*/")]
-            else:
-                return line
-        else:
-            if "/*" in line:
-                if "*/" in line:
-                    return line[line.find("/*") + 2 : line.find("*/")]
-                else:
-                    self.in_multiline_comment = True
-                    return line[line.find("/*") + 2 :]
-            elif "#" in line:
-                return line[line.find("#") + 2 :]
-            elif "//" in line:
-                return line[line.find("//") + 2 :]
-                
-        return ""
 
     def parse_comments(self, file):
-        with open(file) as f:
-            lines = f.readlines()
-            for i, line in enumerate(lines):
-                comment = self.extract_comment(line)
-                if len(comment) > 0:
-                    self.comments[f"{basename(file)}[{i+1}]"] = comment
+        pattern = r"""
+            (?P<literal> (\"([^\"\n])*\")+) |
+            (?P<single> (//|\#)(?P<single_content>.*)?$) |
+            (?P<multi> /\*(?P<multi_content>(.|\n)*?)?\*/) |
+        """
+
+        compiled = re.compile(pattern, re.VERBOSE | re.MULTILINE)
+
+        code = ""
+        with open(file, "r") as f:
+            code = f.read()
+
+        lines_indexes = []
+        for match in re.finditer(r"$", code, re.M):
+            lines_indexes.append(match.start())
+
+        for match in compiled.finditer(code):
+            kind = match.lastgroup
+
+            start_character = match.start()
+            line_no = bisect_left(lines_indexes, start_character) + 1
+            location = f"{basename(file)}[{line_no}]"
+
+            if kind == "single":
+                comment_content = match.group("single_content")
+                self.comments[location] = comment_content
+            elif kind == "multi":
+                comment_content = match.group("multi_content")
+                self.comments[location] = comment_content
 
     def parse(self):
         terraform_files = glob(join(self.path, "*.tf"))

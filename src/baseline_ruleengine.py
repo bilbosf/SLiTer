@@ -11,7 +11,7 @@ SMELL_NAMES = ["admin_by_default",
 
 LOG_COLUMNS = ["REPO", "SMELL", "LOCATION"]
 
-class Baseline_Sniffer():
+class Baseline_RuleEngine():
     def __init__(self, path) -> None:
         self.path = path
 

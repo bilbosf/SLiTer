@@ -4,8 +4,12 @@ REPO, SMELL, LOCATION
 ./terraform/terraform-aws-modules-terraform-aws-eks/, INVALID_IP_BINDING, node_groups.tf.locals[1].node_security_group_recommended_rules
 ./terraform/terraform-aws-modules-terraform-aws-eks/, INVALID_IP_BINDING, variables.tf.variable.cluster_endpoint_public_access_cidrs[0].default[0]
 ./terraform/terraform-aws-modules-terraform-aws-eks/, SUSPICIOUS_COMMENTS, node_groups.tf[43]
+./terraform/terraform-aws-modules-terraform-aws-eks/, SUSPICIOUS_COMMENTS, node_groups.tf[69]
 ./terraform/terraform-aws-modules-terraform-aws-eks/, SUSPICIOUS_COMMENTS, variables.tf[419]
+./terraform/terraform-aws-modules-terraform-aws-eks/, SUSPICIOUS_COMMENTS, main.tf[125]
+./terraform/terraform-aws-modules-terraform-aws-eks/, SUSPICIOUS_COMMENTS, main.tf[220]
 ./terraform/terraform-aws-modules-terraform-aws-eks/, SUSPICIOUS_COMMENTS, main.tf[255]
+./terraform/terraform-aws-modules-terraform-aws-eks/, SUSPICIOUS_COMMENTS, main.tf[442]
 ./terraform/terraform-aws-modules-terraform-aws-eks/, WEAK_CRYPTO_ALGO, outputs.tf.output.cluster_tls_certificate_sha1_fingerprint[0].description
 ./terraform/terraform-aws-modules-terraform-aws-eks/, WEAK_CRYPTO_ALGO, outputs.tf.output.cluster_tls_certificate_sha1_fingerprint[0].value
 ./terraform/terraform-aws-modules-terraform-aws-eks/, WEAK_CRYPTO_ALGO, main.tf.resource.aws_iam_openid_connect_provider.oidc_provider[0].thumbprint_list

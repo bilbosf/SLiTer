@@ -13,17 +13,17 @@ The 7 Security smells that this tool aims to detect, as described by the origina
 7. **Use of weak cryptography algorithms:** Using algorithms such as MD4, MD5 and SHA-1 for encryption purposes.
 
 ## Architecture
-The Python scripts are all in the `src/` directory. The `src/main.py` file is the program entrypoint and is also responsible for iterating over the test directories and creating the output files. The `src/baseline_sniffer.py` file contains the `BaselineSniffer` class, which aims to closely follow the rules defined in the original SLIC program for comparison purposes. The `src/sniffer.py` file contains the `Sniffer` class, which contains the changes made to improve the performance compared to the baseline. The `src/hclparser.py` file contains the `HCLParser` class, which uses [docker-py](https://github.com/docker/docker-py) and [hcl2json](https://github.com/tmccombs/hcl2json) to parse the Terraform files into Python dictionaries.
+The Python scripts are all in the `src/` directory. The `src/main.py` file is the program entrypoint and is also responsible for iterating over the test directories and creating the output files. The `src/baseline_ruleengine.py` file contains the `Baseline_RuleEngine` class, which aims to closely follow the rules defined in the original SLIC program for comparison purposes. The `src/sliter_ruleengine.py` file contains the `SLiTer_RuleEngine` class, which contains the changes made to improve the performance compared to the baseline. The `src/hclparser.py` file contains the `HCLParser` class, which uses [docker-py](https://github.com/docker/docker-py) and [hcl2json](https://github.com/tmccombs/hcl2json) to parse the Terraform files into Python dictionaries, as well as regular expressions to extract the comments from the files.
 
 The program iterates over all subdirectories in the `terraform/` directory to create its output CSV files.
 
 ## Output
 The program outputs 4 CSV files:
 
-- `output_baseline.csv`: How many occurrences of each smell were found in each test repository by the baseline sniffer.
-- `output_sniffer.csv`: How many occurrences of each smell were found in each test repository by the modified sniffer.
-- `log_baseline.csv`: Where each smell found by the baseline sniffer is located.
-- `log_sniffer.csv`:  Where each smell found by the modified sniffer is located.
+- `output_baseline.csv`: How many occurrences of each smell were found in each test repository by the baseline rule engine.
+- `output_sliter.csv`: How many occurrences of each smell were found in each test repository by the modified rule engine.
+- `log_baseline.csv`: Where each smell found by the baseline rule engine is located.
+- `log_sliter.csv`:  Where each smell found by the modified rule engine is located.
 
 ## Test repositories
 
