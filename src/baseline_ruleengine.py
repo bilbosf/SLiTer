@@ -18,7 +18,8 @@ class Baseline_RuleEngine():
         parser = hclparser.HCLParser(path)
         self.parsed, self.comments = parser.parse()
 
-        self.BAD_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2", "todo", "ticket", "to-do", "launchpad"}
+        self.SUSP_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2", "todo", "ticket", "to-do", "launchpad"}
+        self.NEGATIVE_SUSP_COMMENT_WORDS = {"debug"}
 
         self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "base64"}
 
@@ -156,8 +157,8 @@ class Baseline_RuleEngine():
         return ("0.0.0.0" in s.lower())
     
     def test_suspicious_comment(self, s: str) -> bool:
-        for word in self.BAD_COMMENT_WORDS:
-            if word in s.lower() and not "debug" in s.lower():
+        if any(word in s.lower() for word in self.SUSP_COMMENT_WORDS):
+            if not any(word in s.lower() for word in self.NEGATIVE_SUSP_COMMENT_WORDS):
                 return True
         return False
     
@@ -165,8 +166,4 @@ class Baseline_RuleEngine():
         return ("http://" in s.lower())
     
     def test_weak_crypto_algo(self, s: str) -> bool:
-        for word in self.BAD_CRYPTO_ALGO_WORDS:
-            if word in s.lower():
-                return True
-        
-        return False
+        return any(word in s.lower() for word in self.BAD_CRYPTO_ALGO_WORDS)
