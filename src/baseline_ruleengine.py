@@ -21,7 +21,7 @@ class Baseline_RuleEngine():
         self.SUSP_COMMENT_WORDS = {"bug", "hack", "fixme", "later", "later2", "todo", "ticket", "to-do", "launchpad"}
         self.NEGATIVE_SUSP_COMMENT_WORDS = {"debug"}
 
-        self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1", "base64"}
+        self.BAD_CRYPTO_ALGO_WORDS = {"md5", "sha1"}
 
         self.USER_WORDS = {"user"}
         self.NEGATIVE_USER_WORDS = {"provider"}
@@ -31,7 +31,7 @@ class Baseline_RuleEngine():
         self.PASSWORD_WORDS = {"password", "pass", "pwd"}
         self.NEGATIVE_PASSWORD_WORDS = {"provider", "passive"}
 
-        self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "certificate", "cert", "ssh_key", "md5", "rsa", "ssl", "dsa", "ssh-rsa"}
+        self.PRIVATE_KEY_WORDS = {"key", "crypt", "secret", "certificate", "cert", "ssh_key", "md5", "rsa", "ssl", "dsa"}
         self.NEGATIVE_KEY_WORDS = {"provider"}
 
         self.smells = dict()
@@ -136,7 +136,7 @@ class Baseline_RuleEngine():
         constant_s = self.remove_variables(s).lower()
         return self.is_user(latest_key) and (self.is_admin(constant_s) or self.is_admin(latest_key))
     
-    def test_empty_password(self, s: str | None) -> bool:
+    def test_empty_password(self, s: str) -> bool:
         latest_key = self.latest_key()
         if self.is_password(latest_key):
             return (len(s) == 0) or (s == " ")
@@ -148,7 +148,7 @@ class Baseline_RuleEngine():
         constant_s = self.remove_variables(s).lower()
         if len(constant_s) > 0:
             is_secret = self.is_user(latest_key) or self.is_password(latest_key)
-            is_secret = is_secret or self.is_pvt_key(latest_key) or self.is_pvt_key(constant_s)
+            is_secret = is_secret or self.is_pvt_key(latest_key) or ("ssh-rsa" in constant_s)
             return is_secret
         else:
             return False
