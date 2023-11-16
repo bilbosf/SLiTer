@@ -1,6 +1,6 @@
-# Terraform SLIC
+# SLiTer
 
-This is a static analysis tool to detect security smells in Terraform scripts. It is based on A. Rahman, C. Parnin and L. Williams' Security Linter for Infrastructure as Code scripts (SLIC) tool introduced in the article "The Seven Sins: Security Smells in Infrastructure as Code Scripts", available in [IEEE](https://ieeexplore.ieee.org/document/8812041). The original SLIC is meant for Puppet scripts, and this version aims to port the functionality to Terraform scripts, while also making some improvements.
+SLiTer (Security Linter for Terraform) is a static analysis tool to detect security smells in Terraform scripts. It is based on A. Rahman, C. Parnin and L. Williams' Security Linter for Infrastructure as Code scripts (SLIC) tool introduced in the article "The Seven Sins: Security Smells in Infrastructure as Code Scripts", available in [IEEE](https://ieeexplore.ieee.org/document/8812041). The original SLIC is meant for Puppet scripts, and this version aims to port the functionality to Terraform scripts, while also making some improvements.
 
 The 7 Security smells that this tool aims to detect, as described by the original authors, are the following:
 
