@@ -21,9 +21,9 @@ class SLiTer_RuleEngine(baseline_ruleengine.Baseline_RuleEngine):
 
         # Terraform's tls_private_key stores keys unencrypted in terraform state and should be
         # avoided in production enviroments.
-        if ("resource.tls_private_key" in self.current_key) and latest_key == "algorithm":
+        if ("resource.tls_private_key" in self.current_key):
             # Only triggering when latest_key == "algorithm" to avoid multiple triggers for single instance
-            return True
+            return (latest_key == "algorithm")
 
         if len(constant_s) > 0 and latest_key != "description":
             is_secret = self.is_user(latest_key) or self.is_password(latest_key)

@@ -8,9 +8,9 @@ REPO, ADMIN_BY_DEFAULT, EMPTY_PASSWORD, HARD_CODED_SECRET, INVALID_IP_BINDING, S
 ./terraform/gruntwork-io-terraform-google-load-balancer-internal-load-balancer/, 0, 0, 0, 0, 0, 0, 0
 ./terraform/babbel-terraform-aws-lambda-with-inline-code/, 0, 0, 1, 1, 0, 0, 1
 ./terraform/samuelclay-NewsBlur/, 0, 0, 0, 0, 0, 0, 0
-./terraform/jpetazzo-ampernetacle/, 0, 0, 3, 5, 1, 0, 0
+./terraform/jpetazzo-ampernetacle/, 0, 0, 2, 5, 1, 0, 0
 ./terraform/gl-infra-dns-record/, 0, 0, 0, 0, 0, 0, 0
 ./terraform/gl-infra-vault/, 0, 0, 20, 0, 0, 1, 0
 ./terraform/gruntwork-io-terraform-google-load-balancer-network-load-balancer/, 0, 0, 0, 0, 0, 0, 0
 ./terraform/gruntwork-io-terraform-google-load-balancer-http-load-balancer/, 0, 0, 0, 0, 0, 0, 0
-./terraform/gruntwork-io-terraform-google-load-balancer-main/, 0, 0, 2, 0, 0, 0, 0
+./terraform/gruntwork-io-terraform-google-load-balancer-main/, 0, 0, 1, 0, 0, 0, 0
