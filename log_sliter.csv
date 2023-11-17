@@ -1,5 +1,6 @@
 REPO, SMELL, LOCATION
 ./terraform/gl-infra-aws-nessus-scanner/, INVALID_IP_BINDING, security.tf.resource.aws_security_group_rule.nessus-allow-outbound[0].cidr_blocks[0]
+./terraform/gruntwork-io-google-lb/, HARD_CODED_SECRET, main.tf.resource.tls_private_key.private_key[0].algorithm
 ./terraform/terraform-aws-modules-terraform-aws-eks/, HARD_CODED_SECRET, main.tf.locals[2].cluster_encryption_policy_name
 ./terraform/terraform-aws-modules-terraform-aws-eks/, INVALID_IP_BINDING, node_groups.tf.locals[1].node_security_group_recommended_rules
 ./terraform/terraform-aws-modules-terraform-aws-eks/, INVALID_IP_BINDING, variables.tf.variable.cluster_endpoint_public_access_cidrs[0].default[0]
@@ -55,4 +56,3 @@ REPO, SMELL, LOCATION
 ./terraform/gl-infra-vault/, HARD_CODED_SECRET, roles_oidc.tf.resource.vault_jwt_auth_backend_role.admin[0].user_claim
 ./terraform/gl-infra-vault/, HARD_CODED_SECRET, roles_oidc.tf.resource.vault_jwt_auth_backend_role.user[0].user_claim
 ./terraform/gl-infra-vault/, HTTP_WITHOUT_TLS, locals.tf.locals[0].oidc_allowed_redirect_uris[0]
-./terraform/gruntwork-io-terraform-google-load-balancer-main/, HARD_CODED_SECRET, main.tf.resource.tls_private_key.private_key[0].algorithm
